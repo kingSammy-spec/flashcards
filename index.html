@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ===== SEO META TAGS ===== -->
+    <meta name="description" content="CardRecall is a free flashcard app for smarter studying. Create custom decks, practice with spaced repetition, and accelerate learning and memory retention.">
+    <meta name="keywords" content="flashcards, study tools, spaced repetition, learning app, memory cards, exam prep, revision cards">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="CardRecall">
+    <link rel="canonical" href="./">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="CardRecall | Smarter Flashcard Study Tool">
+    <meta property="og:description" content="CardRecall is a free flashcard app for smarter studying. Create custom decks, practice with spaced repetition, and accelerate learning and memory retention.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1200&h=630&q=80">
+    <meta property="og:site_name" content="CardRecall">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CardRecall | Smarter Flashcard Study Tool">
+    <meta name="twitter:description" content="CardRecall is a free flashcard app for smarter studying. Create custom decks, practice with spaced repetition, and accelerate learning and memory retention.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1200&h=630&q=80">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "CardRecall",
+      "description": "CardRecall is a free flashcard app for smarter studying. Create custom decks, practice with spaced repetition, and accelerate learning and memory retention.",
+      "applicationCategory": "Utility",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    <!-- ========================= -->
+    <title>CardRecall | Smarter Study Tools</title>
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+    <link rel="stylesheet" href="style.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- 1. Flashcard Details Deep Dive Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalBody">
+                <!-- Injected dynamically by script.js -->
+            </div>
+            
+            <!-- Strategic Study Sponsor inside details view -->
+            <div class="modal-ad">
+                <span class="ad-tag">LEARNING SPONSOR</span>
+                <div class="modal-ad-grid">
+                    <img id="detail-ad-img" src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=300&h=200&q=80" alt="Ad">
+                    <div>
+                        <h4 id="detail-ad-title">Duolingo: Language Academy</h4>
+                        <p id="detail-ad-desc">Master any language in 3 months. Our smart spaced repetition coach adapts to your pace.</p>
+                        <button class="ad-btn" id="detail-ad-btn" aria-label="Detail Ad Btn">Start Studying</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Studio Dashboard Container -->
+    <div class="study-wrapper">
+        <header>
+            <div class="logo">Card<span>Recall</span></div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <div class="progress" id="progress-indicator">Card 1 of 4</div>
+                <button class="btn-new" id="btn-open-deck-creator" aria-label="Btn Open Deck Creator">Add Card</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- 3D Flippable Study Card -->
+            <div class="flashcard-container">
+                <div class="flashcard" id="card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <span class="card-side-tag">QUESTION</span>
+                            <p id="front-text">What is the capital of France?</p>
+                            <span class="card-action-hint">Tap Card to Flip</span>
+                        </div>
+                        <div class="card-back">
+                            <span class="card-side-tag">ANSWER</span>
+                            <p id="back-text">Paris</p>
+                            <button class="btn-deep-dive" id="btn-open-deep-dive" aria-label="Btn Open Deep Dive">Deep Dive Study</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard controls -->
+            <div class="controls">
+                <button id="prev-btn" aria-label="Prev Btn">Previous</button>
+                <button id="flip-btn" aria-label="Flip Btn">Flip Card</button>
+                <button id="next-btn" aria-label="Next Btn">Next</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- 2. Custom Study Deck Card Creator Modal -->
+    <div id="deckModal" class="modal" style="z-index: 10020;">
+        <div class="modal-content" style="max-width: 500px; padding: 3.5rem;">
+            <span class="close-modal" id="btn-close-deck-modal">&times;</span>
+            <h2 style="font-size: 2.2rem; font-family: 'Space Grotesk', sans-serif; font-weight:700; margin-bottom: 1rem; color: #111; letter-spacing: -0.5px;">Add Study Card</h2>
+            <p style="color: #666; font-size: 0.9rem; margin-bottom: 2rem;">Build a personalized deck. CardRecall will queue card cycles into active spaced repetition flows.</p>
+
+            <form id="custom-deck-form" onsubmit="event.preventDefault(); submitCustomCard();">
+                <div style="display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 2.2rem;">
+                    <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                        <label style="font-size: 0.8rem; font-weight: 700; color: #111; text-transform: uppercase;">Question Prompt</label>
+                        <input type="text" id="deck-question-input" required placeholder="e.g. What is the speed of light?" style="padding: 0.8rem 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-family: inherit; font-size: 1rem; outline: none;">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                        <label style="font-size: 0.8rem; font-weight: 700; color: #111; text-transform: uppercase;">Answer Formula</label>
+                        <input type="text" id="deck-answer-input" required placeholder="e.g. 299,792,458 m/s" style="padding: 0.8rem 1rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; font-family: inherit; font-size: 1rem; outline: none;">
+                    </div>
+                </div>
+                <button type="submit" class="ad-btn" style="width: 100%; padding: 1.1rem; border-radius: 8px;" aria-label="Button">Synchronize Deck</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. Timed Scarcity Premium Upgrade Modal -->
+    <div id="premiumUpgradeModal" class="modal" style="z-index: 10050;">
+        <div class="modal-content" style="max-width: 650px; text-align: center; padding: 4rem 3rem;">
+            <div style="font-size: 3.5rem; margin-bottom: 1.5rem;">🎴</div>
+            <span class="ad-tag" style="display: inline-block; margin-bottom: 1rem;">CARDRECALL ELITE</span>
+            <h2 style="font-size: 2.8rem; font-family: 'Space Grotesk', sans-serif; font-weight:700; margin-bottom: 1rem; color: #111; letter-spacing: -0.5px;">Unlock cardrecall elite</h2>
+            <p style="font-size: 1.15rem; color: #666; line-height: 1.6; margin-bottom: 2.5rem;">Unlock the complete study workspace featuring unlimited deck imports, AI Spaced Repetition profiles, detail trackers, and disable ads.</p>
+
+            <div style="background: #fafafa; padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(0, 0, 0, 0.08); margin-bottom: 3rem;">
+                <div style="font-size: 0.8rem; font-weight: 800; color: #000; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem;">ELITE ENROLLMENT CLOSES IN</div>
+                <div id="scarcity-countdown" style="font-size: 2.2rem; font-weight: 800; color: #111; font-family: monospace; letter-spacing: 2px;">10:00</div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <button class="ad-btn" id="btn-upgrade-now" style="width: 100%; padding: 1.2rem; font-size: 1.2rem; background: #000; border: none; color: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);" aria-label="Btn Upgrade Now">
+                    Upgrade for $1.99 / mo
+                </button>
+                <button class="btn-secondary" id="btn-skip-upgrade" style="width: 100%; padding: 1rem; border: none; background: transparent; color: #747d8c; font-weight: 700; cursor: pointer;" aria-label="Btn Skip Upgrade">
+                    Keep Standard Tier
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Interstitial Skip-Ad Modal Overlay -->
+    <div id="interstitialModal" class="modal" style="z-index: 10100;">
+        <div class="modal-content" style="max-width: 600px; text-align: center; padding: 3rem; position:relative;">
+            <span class="ad-tag" style="display: inline-block; margin-bottom: 1.5rem;">SPONSORED STUDY UTILITY</span>
+            
+            <div class="ad-sponsor-container" style="display: flex; gap: 2rem; align-items: center; text-align: left; margin-bottom: 2.5rem;">
+                <img id="interstitial-ad-img" src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=200&h=200&q=80" style="width: 140px; height: 140px; border-radius: 12px; object-fit: cover; box-shadow: 0 10px 25px rgba(0,0,0,0.15);">
+                <div>
+                    <h3 id="interstitial-ad-title" style="font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight:700; margin-bottom: 0.5rem; color:#222; letter-spacing: -0.5px;">Duolingo: Language Academy</h3>
+                    <p id="interstitial-ad-desc" style="font-size: 0.95rem; color: #555; line-height: 1.6;">Master any language in 3 months. Our smart spaced repetition coach adapts to your pace.</p>
+                </div>
+            </div>
+
+            <div id="interstitial-ad-promo" style="background: #fafafa; padding: 1rem; border-radius: 8px; font-weight: 700; color: #000; font-size: 0.9rem; letter-spacing: 0.5px; border: 1px dashed rgba(0, 0, 0, 0.15); margin-bottom: 2.5rem;">
+                CODE "ACADEMY20" FOR 20% DISCOUNT
+            </div>
+
+            <div style="display: flex; gap: 1.5rem;">
+                <button class="btn-secondary" id="btn-skip-ad" style="flex: 1; padding: 1rem; opacity: 0.4; cursor: not-allowed; border: 1px solid #ccc; background: none; font-weight:700;" disabled aria-label="Btn Skip Ad">
+                    Skip Ad in 5s
+                </button>
+                <button class="ad-btn" id="btn-claim-ad" style="flex: 1; padding: 1rem; background: #000; border-color: #000; color:white;" aria-label="Btn Claim Ad">
+                    Claim Offer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Dynamic Inspiration Sync Celebration Success Modal -->
+    <div id="celebrationModal" class="modal" style="z-index: 10200;">
+        <div class="modal-content" style="max-width: 500px; text-align: center; padding: 3rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem; animation: pulse 1.5s infinite;">🎴</div>
+            <h2 style="font-size: 2.2rem; font-family: 'Space Grotesk', sans-serif; font-weight:700; margin-bottom: 1rem; color: #111; letter-spacing: -0.5px;">Study Card Added!</h2>
+            <p style="font-size: 1.05rem; color: #555; line-height: 1.6; margin-bottom: 2.5rem;">Your new card questions, mathematical formulations, and detailed spaced indices are successfully synchronised.</p>
+            <button class="ad-btn" id="btn-close-celebration" style="width: 100%; background: #000; border-color: #000; color: white;" aria-label="Btn Close Celebration">
+                Acknowledge Success
+            </button>
+        </div>
+    </div>
+
+    <!-- 6. Glassmorphic Exit Intent Discount Modal -->
+    <div id="exitIntentModal" class="modal" style="z-index: 10300;">
+        <div class="modal-content" style="max-width: 600px; text-align: center; padding: 4rem 3rem;">
+            <span class="close-modal" id="closeExitIntent">&times;</span>
+            <span class="ad-tag" style="display:inline-block; margin-bottom:1rem; position:static;">WAIT! BEFORE YOU LEAVE...</span>
+            <h2 style="font-size: 2.8rem; font-family: 'Space Grotesk', sans-serif; font-weight:700; margin-bottom: 1rem; color: #111; letter-spacing: -0.5px;">Claim 80% Off Elite Upgrade</h2>
+            <p style="font-size: 1.15rem; color: #666; line-height: 1.6; margin-bottom: 2.5rem;">Unlock the complete study workspace featuring unlimited deck imports, AI Spaced Repetition profiles, and disable ads forever.</p>
+            <button class="ad-btn" style="width: 100%; font-size: 1.2rem; padding: 1.1rem; background: #000; border: none; color: white; border-radius: 12px;" aria-label="Button">
+                Claim 80% Discount Now
+            </button>
+            <p style="margin-top: 1.5rem; font-size: 0.95rem;"><a href="/" id="declineExitIntent" style="color: #999; text-decoration: underline;">No thanks, I prefer standard tier</a></p>
+        </div>
+    </div>
+
+    <!-- 7. Premium Mock Ad Blocker Modal -->
+    <div id="adBlockModal" class="modal" style="z-index: 10400; background: rgba(0,0,0,0.92);">
+        <div class="modal-content" style="max-width: 500px; text-align: center; padding: 3rem;">
+            <h2 style="font-size: 2.2rem; color: #ff4757; font-family: 'Space Grotesk', sans-serif; font-weight:700; margin-bottom: 1rem; letter-spacing: -0.5px;">Ad Blocker Detected</h2>
+            <p style="font-size: 1.05rem; color: #555; line-height: 1.6; margin-bottom: 2.5rem;">We support this independent spacing algorithm through active study sponsors. Please consider whitelisting our site or upgrade to support micro-developers!</p>
+            <div style="display: flex; gap: 1rem;">
+                <button class="ad-btn" style="flex: 1; background: #000; border-color: #000; color: white;" onclick="location.reload()" aria-label="Button">I Whitelisted</button>
+                <button class="ad-btn" style="flex: 1; background: #ff4757; border-color: #ff4757; color: white;" id="btn-adblock-premium" aria-label="Btn Adblock Premium">Go Premium ($1.99)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. Decoupled Floating Programmatic Ad Banner -->
+    <div class="floating-ad-banner" id="floating-ad-banner" style="display: none;">
+        <!-- Injected programmatically by script.js -->
+    </div>
+
+    <script src="script.min.js"></script>
+
+</body>
+</html>

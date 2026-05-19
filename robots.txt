@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://flashcards-seven-xi.vercel.app/sitemap.xml
